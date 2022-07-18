@@ -19,7 +19,7 @@ done
 
 # Update RPI
 echo "Updating and Upgrading your Pi to newest standards"
-sudo apt update && sudo apt full-upgrade -qq && sudo apt clean > /dev/null
+sudo apt update -qq > /dev/null && sudo apt full-upgrade -qq && sudo apt clean > /dev/null
 wait
 
 #Install Node-Red
