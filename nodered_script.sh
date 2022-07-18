@@ -174,8 +174,8 @@ elif [[ $flag_choice -eq 2 ]] ; then
 git clone https://github.com/kylekrieg/Node-Red-POTA-Dashboard.git
 cd Node-Red-POTA-Dashboard
 fi
+npm --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-Contesting-Dashboard/
 
-npm install --prefix /home/pi/.node-red
 
 sudo systemctl restart nodered.service
 echo "Node Red has Completed. Send to AA0Z to test".
