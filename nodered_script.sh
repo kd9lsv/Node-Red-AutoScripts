@@ -163,12 +163,11 @@ node-red-stop
 wait
 cd /home/pi/.node-red
 npm install @node-red-contrib-themes/theme-collection
-if
 curl -o settings.js https://gist.githubusercontent.com/kd9lsv/b114c87eb3f30b4d3cc53009d486978f/raw/c84a38d999ef8c4562237b531cfc4bcd5f26efab/settings.js
 mkdir projects
 cd projects
 echo "Cloning the Node-Red Dashboard"
-if [[ $flag_choice -eq 1]] ; then
+if [[ $flag_choice -eq 1 ]] ; then
 git clone https://github.com/kylekrieg/Node-Red-Contesting-Dashboard.git
 cd Node-Red-Contesting-Dashboard
 elif [[ $flag_choice -eq 2 ]] ; then
