@@ -36,7 +36,7 @@ sudo apt-get install git sqlite3 -qq > /dev/null
 wait
 # Configure SQLITE
 cd /home/pi
-if [[ $flag_choice -eq 1]] ; then
+if [[ $flag_choice -eq 1 ]] ; then
 sqlite3 qsos<<!
 CREATE TABLE IF NOT EXISTS qsos(
   "app" TEXT,
