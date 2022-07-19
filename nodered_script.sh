@@ -1,7 +1,8 @@
 #!/bin/bash
 
-
+clear
 printf "Welcome to the NodeRed Dashboards. \n Please hit enter to continue. "
+read
 # Are you wanting to update Node-Red?
 #read -p "Are you wanting to update Node-Red? (Y/n) " flag_update
 # Are you a dev?
@@ -10,8 +11,8 @@ if [[ $flag_dev == 'Y' || $flag_dev == 'y' ]] ; then
 read -p "What is your Github Username?" git_username
 read -p "What is your Github Email?" git_email
 else
-$git_username = "nobody"
-$git_email = "example@example.com"
+git_username=nobody
+git_email=example@example.com
 fi
 # Ask which Dashboard are you looking for?
 while true; do
@@ -27,7 +28,7 @@ done
 
 # Update RPI
 echo "Updating and Upgrading your Pi to newest standards"
-sudo apt update -qq > /dev/null && sudo apt full-upgrade -qq -y > /dev/null && sudo apt clean > /dev/null
+sudo apt-get update -qq > /dev/null && sudo apt-get full-upgrade -qq -y > /dev/null && sudo apt-get clean > /dev/null
 wait
 
 #Install Node-Red
@@ -167,18 +168,19 @@ fi
 
 
 #configure NodeRed
-node-red-stop
+sudo systemctl stop nodered.service
 wait
 cd /home/pi/.node-red
-npm install @node-red-contrib-themes/theme-collection
+npm install @node-red-contrib-themes/theme-collection --silent
 curl -o settings.js https://gist.githubusercontent.com/kd9lsv/b114c87eb3f30b4d3cc53009d486978f/raw/c84a38d999ef8c4562237b531cfc4bcd5f26efab/settings.js
 mkdir projects
 cd projects
 echo "Cloning the Node-Red Dashboard"
 if [[ $flag_choice -eq 1 ]] ; then
-git clone https://github.com/kylekrieg/Node-Red-Contesting-Dashboard.git
+git clone https://github.com/kylekrieg/Node-Red-Contesting-Dashboard.git --quiet
 cd Node-Red-Contesting-Dashboard
-npm --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-Contesting-Dashboard/
+printf "**The next step will take around 10 minutes. Please be patient.** \n Install modules for Contesting Dashboard."
+npm --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-Contesting-Dashboard/ --quiet
 cd ~/.node-red/
 cat > .config.users.json <<EOL
 {
@@ -224,10 +226,10 @@ cat > .config.projects.json <<EOL
 EOL
 
 elif [[ $flag_choice -eq 2 ]] ; then
-git clone https://github.com/kylekrieg/Node-Red-POTA-Dashboard.git
+git clone https://github.com/kylekrieg/Node-Red-POTA-Dashboard.git --quiet
 cd Node-Red-POTA-Dashboard
 curl -sL https://raw.githubusercontent.com/kd9lsv/Node-Red-POTA-Dashboard/Automation/package.json > package.json
-npm --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-POTA-Dashboard/
+npm --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-POTA-Dashboard/ --silent
 
 cd ~/.node-red/
 cat > .config.users.json <<EOL
@@ -275,4 +277,8 @@ cat > .config.projects.json <<EOL
 EOL
 fi
 sudo systemctl restart nodered.service
-echo "Node Red has Completed. Send to AA0Z to test".
+HOSTIP=`hostname -I | cut -d ' ' -f 1`
+    if [ "$HOSTIP" = "" ]; then
+        HOSTIP="127.0.0.1"
+    fi
+printf "Node Red has Completed. Head to http://$HOSTIP:1880/ui to access the Contest Dashboard."
