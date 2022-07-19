@@ -170,12 +170,12 @@ echo "Cloning the Node-Red Dashboard"
 if [[ $flag_choice -eq 1 ]] ; then
 git clone https://github.com/kylekrieg/Node-Red-Contesting-Dashboard.git
 cd Node-Red-Contesting-Dashboard
+npm --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-Contesting-Dashboard/
+
 elif [[ $flag_choice -eq 2 ]] ; then
 git clone https://github.com/kylekrieg/Node-Red-POTA-Dashboard.git
 cd Node-Red-POTA-Dashboard
+npm --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-POTA-Dashboard/
 fi
-npm --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-Contesting-Dashboard/
-
-
 sudo systemctl restart nodered.service
 echo "Node Red has Completed. Send to AA0Z to test".
