@@ -1,10 +1,18 @@
 #!/bin/bash
 
 
+printf "Welcome to the NodeRed Dashboards. \n Please hit enter to continue. "
 # Are you wanting to update Node-Red?
-read -p "Are you wanting to update Node-Red? (Y/n) " flag_update
+#read -p "Are you wanting to update Node-Red? (Y/n) " flag_update
 # Are you a dev?
-#read -p "Are you planning to help develop any of the dashboards? (y/N)" flag_dev
+read -p "Are you planning to help develop any of the dashboards? (y/N)" flag_dev
+if [[ $flag_dev == 'Y' || $flag_dev == 'y' ]] ; then
+read -p "What is your Github Username?" git_username
+read -p "What is your Github Email?" git_email
+else
+$git_username = "nobody"
+$git_email = "example@example.com"
+fi
 # Ask which Dashboard are you looking for?
 while true; do
   printf "Pick which Dashboard are you looking for? \n Choose only 1. \n \n 1. Contesting Node-Red Dashboard \n 2. POTA Node-Red Dashboard\n"
@@ -171,11 +179,100 @@ if [[ $flag_choice -eq 1 ]] ; then
 git clone https://github.com/kylekrieg/Node-Red-Contesting-Dashboard.git
 cd Node-Red-Contesting-Dashboard
 npm --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-Contesting-Dashboard/
+cd ~/.node-red/
+cat > .config.users.json <<EOL
+{
+     "_": {
+        "editor": {
+            "view": {
+                "view-store-zoom": false,
+                "view-store-position": false,
+                "view-show-grid": true,
+                "view-snap-grid": true,
+                "view-grid-size": "20",
+                "view-node-status": true,
+                "view-node-show-label": true,
+                "view-show-tips": true,
+                "view-show-welcome-tours": true
+            },
+            "tours": {
+                "welcome": "3.0.0"
+            }
+        },
+        "git": {
+            "user": {
+                "name": "$git_username",
+                "email": "$git_email"
+            },
+            "workflow": {
+                "mode": "manual"
+            }
+        },
+        "debug": {
+            "filter": "filterAll",
+            "filteredNodes": []
+        }
+    }
+}
+EOL
+
+cat > .config.projects.json <<EOL  
+{
+    "activeProject": "Node-Red-Contesting-Dashboard",
+    "projects": {}
+}
+EOL
 
 elif [[ $flag_choice -eq 2 ]] ; then
 git clone https://github.com/kylekrieg/Node-Red-POTA-Dashboard.git
 cd Node-Red-POTA-Dashboard
+curl -sL https://raw.githubusercontent.com/kd9lsv/Node-Red-POTA-Dashboard/Automation/package.json > package.json
 npm --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-POTA-Dashboard/
+
+cd ~/.node-red/
+cat > .config.users.json <<EOL
+{
+     "_": {
+        "editor": {
+            "view": {
+                "view-store-zoom": false,
+                "view-store-position": false,
+                "view-show-grid": true,
+                "view-snap-grid": true,
+                "view-grid-size": "20",
+                "view-node-status": true,
+                "view-node-show-label": true,
+                "view-show-tips": true,
+                "view-show-welcome-tours": true
+            },
+            "tours": {
+                "welcome": "3.0.0"
+            }
+        },
+        "git": {
+            "user": {
+                "name": "$git_username",
+                "email": "$git_email"
+            },
+            "workflow": {
+                "mode": "manual"
+            }
+        },
+        "debug": {
+            "filter": "filterAll",
+            "filteredNodes": []
+        }
+    }
+}
+EOL
+
+
+cat > .config.projects.json <<EOL  
+{
+    "activeProject": "Node-Red-POTA-Dashboard",
+    "projects": {}
+}
+EOL
 fi
 sudo systemctl restart nodered.service
 echo "Node Red has Completed. Send to AA0Z to test".
