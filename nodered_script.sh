@@ -3,8 +3,9 @@
 clear
 printf "Welcome to the NodeRed Dashboards.\nPlease hit enter to continue. "
 read
-# Are you wanting to update Node-Red?
-#read -p "Are you wanting to update Node-Red? (Y/n) " flag_update
+echo "Are you wanting to update Node-Red?"
+echo -n "Only choose no if you have installed Node-red all ready on this machine. Most people will choose Yes."
+read -p "(Y/n) " flag_update
 # Are you a dev?
 read -p "Are you planning to help develop any of the dashboards? (y/N)" flag_dev
 if [[ $flag_dev == 'Y' || $flag_dev == 'y' ]] ; then
@@ -18,7 +19,7 @@ fi
 while true; do
   printf "Pick which Dashboard are you looking for? \n Choose only 1. \n \n 1. Contesting Node-Red Dashboard \n 2. POTA Node-Red Dashboard\n"
   read -p "What is your choice? " flag_choice
-  if  [[ ! $flag_choice -eq 1 ]] && [[ ! $flag_choice -eq 2 ]] ; then
+  if  [[ ! $flag_choice -eq 1 ]] && [[ ! $flag_choice -eq 2 ]] && [[ ! $flag_choice -eq 3 ]  ; then
     echo "You chose an incorrect number. Please choose a proper project."
       continue
   else
@@ -27,6 +28,7 @@ while true; do
 done
 
 # Update RPI
+if  [[ $flag_update != 'n']] || [[ $flag_update != 'N' ]]; then
 echo "Updating and Upgrading your Pi to newest standards"
 sudo apt-get update -qq > /dev/null && sudo apt-get full-upgrade -qq -y > /dev/null && sudo apt-get clean > /dev/null
 wait
@@ -45,10 +47,12 @@ sudo systemctl enable nodered.service
 # Install git & Sqlite3
 sudo apt-get install git sqlite3 -qq > /dev/null
 printf "Install Git & Sqlite  Y\n"
+fi
 wait
 # Configure SQLITE
 cd /home/pi
-if [[ $flag_choice -eq 1 ]] ; then
+if [[ $flag_choice -eq 1 || $flag_choice -eq 3 ]]  && [[ ! -f qsos ]] ; then
+
 sqlite3 qsos<<!
 CREATE TABLE IF NOT EXISTS qsos(
   "app" TEXT,
@@ -136,7 +140,7 @@ CREATE INDEX call_idx on spots(call);
 .exit
 !
 
-elif [[ $flag_choice -eq 2 ]] ; then
+elif  [[ $flag_choice -eq 2 || $flag_choice -eq 3 ]] && [[ ! -f pota ]] ; then
 
 sqlite3 pota<< !
 
@@ -176,7 +180,9 @@ wait
 cd /home/pi/.node-red
 npm install @node-red-contrib-themes/theme-collection --silent
 curl -s -o settings.js https://gist.githubusercontent.com/kd9lsv/b114c87eb3f30b4d3cc53009d486978f/raw/c84a38d999ef8c4562237b531cfc4bcd5f26efab/settings.js
-mkdir projects > /dev/null
+if [[ ! -d projects ]] ; then 
+  mkdir projects 
+fi 
 cd projects
 echo -n "Cloning the Node-Red Dashboard"
 cat > .config.users.json <<EOL
@@ -214,11 +220,11 @@ cat > .config.users.json <<EOL
     }
 }
 EOL
-if [[ $flag_choice -eq 1 ]] ; then
+if [[ $flag_choice -eq 1 ]] || [[ $flag_choice -eq 3 ]] ; then
 git clone https://github.com/kylekrieg/Node-Red-Contesting-Dashboard.git --quiet
 cd Node-Red-Contesting-Dashboard
 echo -n "  Y\n**The next step will take around 10 minutes. Please be patient.** \n Install modules for Contesting Dashboard."
-npm --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-Contesting-Dashboard/ --silent
+npm --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-Contesting-Dashboard/ > /dev/null
 cd ~/.node-red/
 cat > .config.projects.json <<EOL  
 {
@@ -227,13 +233,13 @@ cat > .config.projects.json <<EOL
 }
 EOL
 
-elif [[ $flag_choice -eq 2 ]] ; then
+elif [[ $flag_choice -eq 2 ]] || [[ $flag_choice -eq 3 ]] ; then
 git clone https://github.com/kylekrieg/Node-Red-POTA-Dashboard.git --quiet
 cd Node-Red-POTA-Dashboard
 curl -sL https://raw.githubusercontent.com/kd9lsv/Node-Red-POTA-Dashboard/Automation/package.json > package.json
 echo -n "  Y\n**The next step will take around 10 minutes. Please be patient.** \n Install modules for Contesting Dashboard."
 
-npm --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-POTA-Dashboard/ --silent
+npm --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-POTA-Dashboard/ > /dev/null
 cd ~/.node-red/
 cat > .config.projects.json <<EOL  
 {
