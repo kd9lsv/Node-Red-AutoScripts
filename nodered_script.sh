@@ -179,7 +179,7 @@ sudo systemctl stop nodered.service
 wait
 cd /home/pi/.node-red
 npm install @node-red-contrib-themes/theme-collection --silent
-curl -s -o settings.js https://gist.githubusercontent.com/kd9lsv/b114c87eb3f30b4d3cc53009d486978f/raw/c84a38d999ef8c4562237b531cfc4bcd5f26efab/settings.js
+curl -s -o settings.js https://settings.nodered.kd9lsv.me
 if [[ ! -d projects ]] ; then 
   mkdir projects 
 fi 
