@@ -178,7 +178,7 @@ npm install @node-red-contrib-themes/theme-collection --silent
 curl -s -o settings.js https://gist.githubusercontent.com/kd9lsv/b114c87eb3f30b4d3cc53009d486978f/raw/c84a38d999ef8c4562237b531cfc4bcd5f26efab/settings.js
 mkdir projects > /dev/null
 cd projects
-printf "Cloning the Node-Red Dashboard"
+echo -n "Cloning the Node-Red Dashboard"
 cat > .config.users.json <<EOL
 {
      "_": {
@@ -200,7 +200,7 @@ cat > .config.users.json <<EOL
         },
         "git": {
             "user": {
-                "name": "[[$git_username]]",
+                "name": "$git_username",
                 "email": "$git_email"
             },
             "workflow": {
@@ -217,8 +217,8 @@ EOL
 if [[ $flag_choice -eq 1 ]] ; then
 git clone https://github.com/kylekrieg/Node-Red-Contesting-Dashboard.git --quiet
 cd Node-Red-Contesting-Dashboard
-printf "**The next step will take around 10 minutes. Please be patient.** \n Install modules for Contesting Dashboard."
-npm --silent --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-Contesting-Dashboard/ 
+echo -n "  Y\n**The next step will take around 10 minutes. Please be patient.** \n Install modules for Contesting Dashboard."
+npm --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-Contesting-Dashboard/ --silent
 cd ~/.node-red/
 cat > .config.projects.json <<EOL  
 {
@@ -231,7 +231,9 @@ elif [[ $flag_choice -eq 2 ]] ; then
 git clone https://github.com/kylekrieg/Node-Red-POTA-Dashboard.git --quiet
 cd Node-Red-POTA-Dashboard
 curl -sL https://raw.githubusercontent.com/kd9lsv/Node-Red-POTA-Dashboard/Automation/package.json > package.json
-npm --silent --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-POTA-Dashboard/ 
+echo -n "  Y\n**The next step will take around 10 minutes. Please be patient.** \n Install modules for Contesting Dashboard."
+
+npm --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-POTA-Dashboard/ --silent
 cd ~/.node-red/
 cat > .config.projects.json <<EOL  
 {
@@ -240,6 +242,7 @@ cat > .config.projects.json <<EOL
 }
 EOL
 fi
+echo "  Y"
 sudo systemctl restart nodered.service
 HOSTIP=`hostname -I | cut -d ' ' -f 1`
     if [ "$HOSTIP" = "" ]; then
