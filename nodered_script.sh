@@ -281,4 +281,4 @@ HOSTIP=`hostname -I | cut -d ' ' -f 1`
     if [ "$HOSTIP" = "" ]; then
         HOSTIP="127.0.0.1"
     fi
-printf "Node Red has Completed. Head to http://$HOSTIP:1880/ui to access the Contest Dashboard."
+printf "Node Red has Completed. Head to http://$HOSTIP:1880/ui to access the Contest Dashboard.\n"
