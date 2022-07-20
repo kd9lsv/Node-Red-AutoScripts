@@ -172,7 +172,7 @@ sudo systemctl stop nodered.service
 wait
 cd /home/pi/.node-red
 npm install @node-red-contrib-themes/theme-collection --silent
-curl -o settings.js https://gist.githubusercontent.com/kd9lsv/b114c87eb3f30b4d3cc53009d486978f/raw/c84a38d999ef8c4562237b531cfc4bcd5f26efab/settings.js
+curl -s -o settings.js https://gist.githubusercontent.com/kd9lsv/b114c87eb3f30b4d3cc53009d486978f/raw/c84a38d999ef8c4562237b531cfc4bcd5f26efab/settings.js
 mkdir projects
 cd projects
 echo "Cloning the Node-Red Dashboard"
@@ -180,7 +180,7 @@ if [[ $flag_choice -eq 1 ]] ; then
 git clone https://github.com/kylekrieg/Node-Red-Contesting-Dashboard.git --quiet
 cd Node-Red-Contesting-Dashboard
 printf "**The next step will take around 10 minutes. Please be patient.** \n Install modules for Contesting Dashboard."
-npm --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-Contesting-Dashboard/ --quiet
+npm --silent --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-Contesting-Dashboard/ 
 cd ~/.node-red/
 cat > .config.users.json <<EOL
 {
@@ -229,7 +229,7 @@ elif [[ $flag_choice -eq 2 ]] ; then
 git clone https://github.com/kylekrieg/Node-Red-POTA-Dashboard.git --quiet
 cd Node-Red-POTA-Dashboard
 curl -sL https://raw.githubusercontent.com/kd9lsv/Node-Red-POTA-Dashboard/Automation/package.json > package.json
-npm --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-POTA-Dashboard/ --silent
+npm --silent --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-POTA-Dashboard/ 
 
 cd ~/.node-red/
 cat > .config.users.json <<EOL
