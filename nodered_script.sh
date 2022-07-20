@@ -1,7 +1,7 @@
 #!/bin/bash
 
 clear
-printf "Welcome to the NodeRed Dashboards. \n Please hit enter to continue. "
+printf "Welcome to the NodeRed Dashboards.\nPlease hit enter to continue. "
 read
 # Are you wanting to update Node-Red?
 #read -p "Are you wanting to update Node-Red? (Y/n) " flag_update
@@ -37,11 +37,14 @@ y
 y
 !
 wait
+clear
+printf "**NodeRed Dashboard Status**\nUpdating and Upgrading your Pi to newest standards  Y\nInstall and Update NodeRed  Y\n"
 # Start NodeRed
 sudo systemctl start nodered.service
 sudo systemctl enable nodered.service
 # Install git & Sqlite3
 sudo apt-get install git sqlite3 -qq > /dev/null
+printf "Install Git & Sqlite  Y\n"
 wait
 # Configure SQLITE
 cd /home/pi
@@ -173,15 +176,9 @@ wait
 cd /home/pi/.node-red
 npm install @node-red-contrib-themes/theme-collection --silent
 curl -s -o settings.js https://gist.githubusercontent.com/kd9lsv/b114c87eb3f30b4d3cc53009d486978f/raw/c84a38d999ef8c4562237b531cfc4bcd5f26efab/settings.js
-mkdir projects
+mkdir projects > /dev/null
 cd projects
-echo "Cloning the Node-Red Dashboard"
-if [[ $flag_choice -eq 1 ]] ; then
-git clone https://github.com/kylekrieg/Node-Red-Contesting-Dashboard.git --quiet
-cd Node-Red-Contesting-Dashboard
-printf "**The next step will take around 10 minutes. Please be patient.** \n Install modules for Contesting Dashboard."
-npm --silent --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-Contesting-Dashboard/ 
-cd ~/.node-red/
+printf "Cloning the Node-Red Dashboard"
 cat > .config.users.json <<EOL
 {
      "_": {
@@ -203,7 +200,7 @@ cat > .config.users.json <<EOL
         },
         "git": {
             "user": {
-                "name": "$git_username",
+                "name": "[[$git_username]]",
                 "email": "$git_email"
             },
             "workflow": {
@@ -217,7 +214,12 @@ cat > .config.users.json <<EOL
     }
 }
 EOL
-
+if [[ $flag_choice -eq 1 ]] ; then
+git clone https://github.com/kylekrieg/Node-Red-Contesting-Dashboard.git --quiet
+cd Node-Red-Contesting-Dashboard
+printf "**The next step will take around 10 minutes. Please be patient.** \n Install modules for Contesting Dashboard."
+npm --silent --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-Contesting-Dashboard/ 
+cd ~/.node-red/
 cat > .config.projects.json <<EOL  
 {
     "activeProject": "Node-Red-Contesting-Dashboard",
@@ -230,45 +232,7 @@ git clone https://github.com/kylekrieg/Node-Red-POTA-Dashboard.git --quiet
 cd Node-Red-POTA-Dashboard
 curl -sL https://raw.githubusercontent.com/kd9lsv/Node-Red-POTA-Dashboard/Automation/package.json > package.json
 npm --silent --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-POTA-Dashboard/ 
-
 cd ~/.node-red/
-cat > .config.users.json <<EOL
-{
-     "_": {
-        "editor": {
-            "view": {
-                "view-store-zoom": false,
-                "view-store-position": false,
-                "view-show-grid": true,
-                "view-snap-grid": true,
-                "view-grid-size": "20",
-                "view-node-status": true,
-                "view-node-show-label": true,
-                "view-show-tips": true,
-                "view-show-welcome-tours": true
-            },
-            "tours": {
-                "welcome": "3.0.0"
-            }
-        },
-        "git": {
-            "user": {
-                "name": "$git_username",
-                "email": "$git_email"
-            },
-            "workflow": {
-                "mode": "manual"
-            }
-        },
-        "debug": {
-            "filter": "filterAll",
-            "filteredNodes": []
-        }
-    }
-}
-EOL
-
-
 cat > .config.projects.json <<EOL  
 {
     "activeProject": "Node-Red-POTA-Dashboard",
