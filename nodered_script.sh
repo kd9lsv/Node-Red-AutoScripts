@@ -19,7 +19,7 @@ fi
 while true; do
   printf "Pick which Dashboard are you looking for? \n Choose only 1. \n \n 1. Contesting Node-Red Dashboard \n 2. POTA Node-Red Dashboard\n"
   read -p "What is your choice? " flag_choice
-  if  [[ ! $flag_choice -eq 1 ]] && [[ ! $flag_choice -eq 2 ]] && [[ ! $flag_choice -eq 3 ]  ; then
+  if  [[ ! $flag_choice -eq 1 ]] && [[ ! $flag_choice -eq 2 ]] && [[ ! $flag_choice -eq 3 ]]  ; then
     echo "You chose an incorrect number. Please choose a proper project."
       continue
   else
