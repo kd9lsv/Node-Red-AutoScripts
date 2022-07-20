@@ -28,7 +28,7 @@ while true; do
 done
 
 # Update RPI
-if  [[ $flag_update != 'n']] || [[ $flag_update != 'N' ]]; then
+if  [[ $flag_update != 'n' ]] || [[ $flag_update != 'N' ]]; then
 echo "Updating and Upgrading your Pi to newest standards"
 sudo apt-get update -qq > /dev/null && sudo apt-get full-upgrade -qq -y > /dev/null && sudo apt-get clean > /dev/null
 wait
