@@ -52,6 +52,7 @@ wait
 # Configure SQLITE
 cd /home/pi
 if [[ $flag_choice -eq 1 || $flag_choice -eq 3 ]]  && [[ ! -f qsos ]] ; then
+dashboard_name="Contesting"
 
 sqlite3 qsos<<!
 CREATE TABLE IF NOT EXISTS qsos(
@@ -141,7 +142,7 @@ CREATE INDEX call_idx on spots(call);
 !
 
 elif  [[ $flag_choice -eq 2 || $flag_choice -eq 3 ]] && [[ ! -f pota ]] ; then
-
+dashboard_name="POTA"
 sqlite3 pota<< !
 
 CREATE TABLE validparksdesignator(
@@ -237,7 +238,7 @@ elif [[ $flag_choice -eq 2 ]] || [[ $flag_choice -eq 3 ]] ; then
 git clone https://github.com/kylekrieg/Node-Red-POTA-Dashboard.git --quiet
 cd Node-Red-POTA-Dashboard
 curl -sL https://raw.githubusercontent.com/kd9lsv/Node-Red-POTA-Dashboard/Automation/package.json > package.json
-echo -n "  Y\n**The next step will take around 10 minutes. Please be patient.** \n Install modules for Contesting Dashboard."
+echo -n "  Y\n**The next step will take around 10 minutes. Please be patient.** \n Install modules for POTA Dashboard."
 
 npm --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-POTA-Dashboard/ > /dev/null
 cd ~/.node-red/
@@ -254,4 +255,4 @@ HOSTIP=`hostname -I | cut -d ' ' -f 1`
     if [ "$HOSTIP" = "" ]; then
         HOSTIP="127.0.0.1"
     fi
-printf "Node Red has Completed. Head to http://$HOSTIP:1880/ui to access the Contest Dashboard.\n"
+printf "Node Red has Completed. Head to http://$HOSTIP:1880/ui to access the $dashboard_name Node-Red Dashboard.\n"
