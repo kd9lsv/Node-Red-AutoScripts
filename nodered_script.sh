@@ -50,7 +50,7 @@ printf "Install Git & Sqlite  Y\n"
 fi
 wait
 # Configure SQLITE
-cd /home/pi
+cd $HOME
 if [[ $flag_choice -eq 1 || $flag_choice -eq 3 ]]  && [[ ! -f qsos ]] ; then
 dashboard_name="Contesting"
 
@@ -178,7 +178,7 @@ fi
 #configure NodeRed
 sudo systemctl stop nodered.service
 wait
-cd /home/pi/.node-red
+cd $HOME/.node-red
 npm install @node-red-contrib-themes/theme-collection --silent
 curl -s -o settings.js https://settings.nodered.kd9lsv.me
 if [[ ! -d projects ]] ; then 
