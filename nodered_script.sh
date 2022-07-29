@@ -180,7 +180,7 @@ sudo systemctl stop nodered.service
 wait
 cd $HOME/.node-red
 npm install @node-red-contrib-themes/theme-collection --silent
-curl -s -o settings.js https://settings.nodered.kd9lsv.me
+curl -sL -o settings.js https://settings.nodered.kd9lsv.me
 if [[ ! -d projects ]] ; then 
   mkdir projects 
 fi 
