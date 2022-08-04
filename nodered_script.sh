@@ -266,7 +266,7 @@ npm --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-Contesting-Dashb
 
 kill $bgid
 
-ProgressBar $(_end) $(_end)
+ProgressBar ${_end} ${_end}
 
 
 
