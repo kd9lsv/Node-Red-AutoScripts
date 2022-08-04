@@ -40,7 +40,9 @@ y
 !
 wait
 clear
-printf "**NodeRed Dashboard Status**\nUpdating and Upgrading your Pi to newest standards  Y\nInstall and Update NodeRed  Y\n"
+echo "**NodeRed Dashboard Status**"
+echo "Updating and Upgrading your Pi to newest standards  Y"
+echo "Install and Update NodeRed  Y"
 # Start NodeRed
 sudo systemctl start nodered.service
 sudo systemctl enable nodered.service
@@ -179,7 +181,7 @@ fi
 sudo systemctl stop nodered.service
 wait
 cd $HOME/.node-red
-npm install @node-red-contrib-themes/theme-collection --silent
+npm install @node-red-contrib-themes/theme-collection --silent &> /dev/null
 curl -sL -o settings.js https://settings.nodered.kd9lsv.me
 if [[ ! -d projects ]] ; then 
   mkdir projects 
@@ -224,8 +226,10 @@ EOL
 if [[ $flag_choice -eq 1 ]] || [[ $flag_choice -eq 3 ]] ; then
 git clone https://github.com/kylekrieg/Node-Red-Contesting-Dashboard.git --quiet
 cd Node-Red-Contesting-Dashboard
-echo -n "  Y\n**The next step will take around 10 minutes. Please be patient.** \n Install modules for Contesting Dashboard."
-npm --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-Contesting-Dashboard/ > /dev/null
+echo "  Y"
+echo "**The next step will take around 10 minutes. Please be patient.**" 
+echo -n "Install modules for Contesting Dashboard."
+npm --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-Contesting-Dashboard/ &> /dev/null
 cd ~/.node-red/
 cat > .config.projects.json <<EOL  
 {
@@ -240,7 +244,7 @@ cd Node-Red-POTA-Dashboard
 curl -sL https://raw.githubusercontent.com/kd9lsv/Node-Red-POTA-Dashboard/Automation/package.json > package.json
 echo -n "  Y\n**The next step will take around 10 minutes. Please be patient.** \n Install modules for POTA Dashboard."
 
-npm --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-POTA-Dashboard/ > /dev/null
+npm --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-POTA-Dashboard/ --silent &> /dev/null
 cd ~/.node-red/
 cat > .config.projects.json <<EOL  
 {
