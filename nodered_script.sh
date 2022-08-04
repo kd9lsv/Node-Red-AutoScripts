@@ -257,9 +257,19 @@ echo -n "Install modules for Contesting Dashboard."
 npm config set jobs 4
 for number in $(seq ${_start} ${_end})
 do
-	sleep 0.1
+	sleep 3
 	ProgressBar ${number} ${_end}
-done & npm --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-Contesting-Dashboard/ &> /dev/null
+done &
+bgid=$!
+
+npm --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-Contesting-Dashboard/ &> /dev/null
+
+kill $bgid
+
+ProgressBar $(_end) $(_end)
+
+
+
 cd ~/.node-red/
 cat > .config.projects.json <<EOL  
 {
