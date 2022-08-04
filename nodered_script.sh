@@ -266,7 +266,7 @@ echo "Install modules for Contesting Dashboard."
 npm config set jobs 4
 for number in $(seq ${_start} ${_end})
 do
-	sleep 3
+	sleep 5
 	ProgressBar ${number} ${_end}
 done &
 bgid=$!
