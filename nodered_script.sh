@@ -55,7 +55,16 @@ done
 # Update RPI
 if  [[ $flag_update != 'n' ]] && [[ $flag_update != 'N' ]]; then
 echo "Updating and Upgrading your Pi to newest standards"
+for number in $(seq ${_start} ${_end})
+do
+	sleep 2
+	ProgressBar ${number} ${_end}
+done &
+bgid=$!
 sudo apt-get update -qq > /dev/null && sudo apt-get full-upgrade -qq -y > /dev/null && sudo apt-get clean > /dev/null
+kill $bgid
+
+ProgressBar ${_end} ${_end}
 wait
 
 #Install Node-Red
@@ -253,7 +262,7 @@ git clone https://github.com/kylekrieg/Node-Red-Contesting-Dashboard.git --quiet
 cd Node-Red-Contesting-Dashboard
 echo "  Y"
 echo "**The next step will take around 10 minutes. Please be patient.**" 
-echo -n "Install modules for Contesting Dashboard."
+echo "Install modules for Contesting Dashboard."
 npm config set jobs 4
 for number in $(seq ${_start} ${_end})
 do
@@ -293,7 +302,6 @@ cat > .config.projects.json <<EOL
 }
 EOL
 fi
-echo "  Y"
 sudo systemctl restart nodered.service
 HOSTIP=`hostname -I | cut -d ' ' -f 1`
     if [ "$HOSTIP" = "" ]; then
