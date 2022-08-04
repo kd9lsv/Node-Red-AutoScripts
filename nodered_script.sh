@@ -254,6 +254,7 @@ cd Node-Red-Contesting-Dashboard
 echo "  Y"
 echo "**The next step will take around 10 minutes. Please be patient.**" 
 echo -n "Install modules for Contesting Dashboard."
+npm config set jobs 4
 npm --prefix ~/.node-red/ install ~/.node-red/projects/Node-Red-Contesting-Dashboard/ &> /dev/null
 for number in $(seq ${_start} ${_end})
 do
