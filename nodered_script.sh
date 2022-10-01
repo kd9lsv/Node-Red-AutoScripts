@@ -15,8 +15,10 @@ cd $HOME
 if [[ $flag_choice -eq 1 || $flag_choice -eq 3 ]]  && [[ ! -f qsos ]] ; then
 # dashboard_name="Contesting"
 bash <(curl -sL https://raw.githubusercontent.com/kd9lsv/Node-Red-AutoScripts/master/contesting_script.sh)
+wait
 
 elif  [[ $flag_choice -eq 2 || $flag_choice -eq 3 ]] && [[ ! -f pota ]] ; then
 # dashboard_name="POTA"
 bash <(curl -sL https://https://raw.githubusercontent.com/kd9lsv/Node-Red-AutoScripts/master/potainstall.sh)
+wait
 fi
