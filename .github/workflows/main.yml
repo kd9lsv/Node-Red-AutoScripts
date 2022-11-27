@@ -2,7 +2,7 @@ name: update All issue to project
 
 on:
   push:
-     branches: [main]
+     branches: [master]
   issues:
     types: 
       - opened
