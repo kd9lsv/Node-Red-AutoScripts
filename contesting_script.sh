@@ -37,7 +37,7 @@ done
 if [[ $upgrade = "Y" || $defaults = "Y" ]]; then
 flag_update="N"
 dashboard_update="Y"
-else if [[ $help = "Y" ]]; then
+elif [[ $help = "Y" ]]; then
 echo "Welcome to the Node-Red Contesting Dashboard script.  adding -u| -upgrade will update your current dashbaord, while -d will use the standard defaults."
 else
 ## ---- Initial Questioning ---- ##
