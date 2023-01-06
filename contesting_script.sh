@@ -21,6 +21,25 @@ _start=1
 _end=100
 clear
 
+while getopts "u:h:d:upgrade:help:defaults" flag
+do
+    case "${flag}" in
+        u) upgrade="Y";;
+	h) help="Y";;
+	d) defaults="Y";;
+        upgrade) upgrade="Y";;
+	help) help="Y";;
+	defaults) defaults="Y";;
+ 
+    esac
+done
+
+if [[ $upgrade = "Y" || $defaults = "Y" ]]; then
+flag_update="N"
+dashboard_update="Y"
+elif [[ $help = "Y" ]]; then
+echo "Welcome to the Node-Red Contesting Dashboard script.  adding -u| -upgrade will update your current dashbaord, while -d will use the standard defaults."
+else
 ## ---- Initial Questioning ---- ##
 printf "Welcome to the NodeRed Dashboards.\nPlease hit enter to continue. "
 read
@@ -32,6 +51,7 @@ echo "Are you wanting to update the Dashboard? Note this will not delete your da
 read -p "(Y/n) " dashboard_update
 # Are you a dev?
 read -p "Are you planning to help develop any of the dashboards? (y/N)" flag_dev
+fi
 if [[ $flag_dev == 'Y' || $flag_dev == 'y' ]] ; then
 read -p "What is your Github Username?" git_username
 read -p "What is your Github Email?" git_email
@@ -39,7 +59,6 @@ else
 git_username=nobody
 git_email=example@example.com
 fi
-
 ## ---- Update RPI ---- ##
 if  [[ $flag_update != 'n' ]] && [[ $flag_update != 'N' ]]; then
 echo "Updating and Upgrading your Pi to newest standards"
@@ -129,7 +148,10 @@ cd ~/.node-red/projects/Node-Red-Contesting-Dashboard
 else 
 cd ~/.node-red/projects/Node-Red-Contesting-Dashboard
 git config pull.rebase true
-git restore flow.json
+git restore flow.json 
+for branch in `git branch -a | grep remotes | grep -v HEAD | grep -v master `; do \
+   git branch --track ${branch#remotes/origin/} $branch &> /dev/null
+done
 git pull &> /dev/null
 fi
 echo "  Y" 
