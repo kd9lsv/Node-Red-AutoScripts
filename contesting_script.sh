@@ -129,7 +129,10 @@ cd ~/.node-red/projects/Node-Red-Contesting-Dashboard
 else 
 cd ~/.node-red/projects/Node-Red-Contesting-Dashboard
 git config pull.rebase true
-git restore flow.json
+git restore flow.json 
+for branch in `git branch -a | grep remotes | grep -v HEAD | grep -v master `; do \
+   git branch --track ${branch#remotes/origin/} $branch ; \
+done
 git pull &> /dev/null
 fi
 echo "  Y" 
